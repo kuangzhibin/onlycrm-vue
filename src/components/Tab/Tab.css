@@ -1,0 +1,15 @@
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2) i.anticon-close{
+  display: none;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2) i.anticon-home{
+  margin-right: 0;
+  color: #666;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2):not('.ant-tabs-tab-active'):hover{
+  padding: 5px 16px 4px;
+  background-color: #f9f9f9;
+}
+.ant-tabs.ant-tabs-card > .ant-tabs-bar .ant-tabs-tab:nth-child(2):hover{
+  padding: 5px 16px 4px;
+  background-color: #fff;
+}
