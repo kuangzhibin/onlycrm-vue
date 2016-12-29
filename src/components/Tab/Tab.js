@@ -59,14 +59,14 @@ const MyTab = React.createClass({
   onEdit(targetKey, action) {
     this[action](targetKey);
   },
-  add() {
+  add(key) {
+    console.log(key)
     const panes = this.state.panes;
     const activeKey = (this.newTabIndex++).toString();
-    console.log(activeKey);
-    panes.push({ title: 'New Tab'+activeKey, content: 'New Tab Pane', key: activeKey });
     if(panes.length>9){
       panes.shift(panes[0]);
     }
+    panes.push({ title: 'New Tab'+key, content: 'New Tab Pane', key: activeKey , menuKey: key});
     this.setState({ panes, activeKey });
   },
   remove(targetKey) {
@@ -95,7 +95,7 @@ const MyTab = React.createClass({
   },
   render() {
     return (
-      <div>
+      <div ref="iTab">
         <div style={{ marginBottom: 16 }}>
           <Button type="ghost" onClick={this.add}>添加</Button>
           <Button type="ghost" onClick={this.onCloseAll}>删除全部</Button>
@@ -119,6 +119,6 @@ const MyTab = React.createClass({
       </div>
     );
   },
-});
+})
 
 export default MyTab;

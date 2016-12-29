@@ -48,6 +48,10 @@
   font-size: 13px;
 }
 
+.App-nav .ant-menu-sub.ant-menu-inline{
+  padding-left: 48px;
+}
+
 .App-nav .ant-menu-item{
   border-left: 1px dotted #000;
   margin-left: 30px;
