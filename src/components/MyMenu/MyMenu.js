@@ -4,7 +4,6 @@ const SubMenu = Menu.SubMenu;
 
 const MyMenu = React.createClass({
 	createTab(memuItem) {
-		console.log(memuItem.key);
 		this.props.createTab(memuItem.key);
 	},
 	render() {
@@ -36,7 +35,6 @@ const MyMenu = React.createClass({
 	        <Menu.Item key="16">规则设置</Menu.Item>
 	      </SubMenu>
 	    </Menu>
-	    <button onClick={this.createTab}>Helklo</button>
 	    </div>
 	   )
 	}

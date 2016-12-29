@@ -1,8 +1,11 @@
 import React from 'react';
-import { Tabs, Button ,Icon } from 'antd';
+import { Tabs, Button ,Icon, Menu, Dropdown} from 'antd';
 import './Tab.css';
-const TabPane = Tabs.TabPane;
 
+// import RegistrationForm from '../Test/Test';
+import Add from '../Add/Add';
+
+const TabPane = Tabs.TabPane;
 const MyTab = React.createClass({
   getInitialState() {
     this.newTabIndex = 0;
@@ -26,7 +29,6 @@ const MyTab = React.createClass({
       }
     }
     var newPanes = panes.splice(0,cur+1);
-    console.log(panes);
     this.setState({panes: newPanes});
   },
   onCloseLeft() {
@@ -50,7 +52,6 @@ const MyTab = React.createClass({
         newPane.push(panes[i])
       }
     }
-    console.log(newPane);
     this.setState({panes: newPane});
   },
   onChange(activeKey) {
@@ -60,14 +61,23 @@ const MyTab = React.createClass({
     this[action](targetKey);
   },
   add(key) {
-    console.log(key)
-    const panes = this.state.panes;
-    const activeKey = (this.newTabIndex++).toString();
-    if(panes.length>9){
-      panes.shift(panes[0]);
-    }
-    panes.push({ title: 'New Tab'+key, content: 'New Tab Pane', key: activeKey , menuKey: key});
-    this.setState({ panes, activeKey });
+      const panes = this.state.panes;
+      for(var i = 0, j = panes.length; i < j; i++){
+        if(panes[i].key === key){
+          this.setState({panes, activeKey: key});
+          return;
+        }
+      }
+      let TITLES = ['客户管理-销售', 
+                      '新增客户-市场', '跟进中客户-市场', '客户管理-市场', '预约到访查询', '分配客户-市场', '活动管理', '关怀管理-市场', 
+                      '新增客户-校区', '预约到访客户', '跟进中客户-校区', '客户经理', '分配客户-校区', '关怀管理-校区',
+                      '权限设置', '规则设置'
+                    ];
+      panes.push({ title: TITLES[key-1], content: <Add/>, key: key });
+      if(panes.length>9){
+        panes.shift(0)
+      }
+      this.setState({panes, activeKey: key})
   },
   remove(targetKey) {
     let activeKey = this.state.activeKey;
@@ -93,15 +103,46 @@ const MyTab = React.createClass({
     }
     return paneArr;
   },
+  dropDownHeadle(e) {
+    switch (e.key) {
+      case '1':
+        this.onCloseAll();
+        break;
+      case '2':
+        this.onCloseOther();
+        break;
+      case '3':
+        this.onCloseLeft();
+        break;
+      case '4':
+        this.onCloseRight();
+        break;
+      default :
+        break;
+    }
+  },
   render() {
     return (
-      <div ref="iTab">
-        <div style={{ marginBottom: 16 }}>
-          <Button type="ghost" onClick={this.add}>添加</Button>
+      <div className="Tab-container">
+        <div style={{ position: 'absolute',right: '16px', zIndex: '2'}}>
+        {
+          /*
           <Button type="ghost" onClick={this.onCloseAll}>删除全部</Button>
           <Button type="ghost" onClick={this.onCloseOther}>删除其他</Button>
           <Button type="ghost" onClick={this.onCloseLeft}>删除左侧</Button>
           <Button type="ghost" onClick={this.onCloseRight}>删除右侧</Button>
+          */
+        }
+          <Dropdown overlay={<Menu onClick={this.dropDownHeadle}>
+            <Menu.Item key="1">删除全部</Menu.Item>
+            <Menu.Item key="2">删除其他</Menu.Item>
+            <Menu.Item key="3">删除左侧</Menu.Item>
+            <Menu.Item key="4">删除右侧</Menu.Item>
+          </Menu>}>
+            <Button type="ghost">
+              <Icon type="bars" />
+            </Button>
+          </Dropdown>
         </div>
         <Tabs
           hideAdd
@@ -112,7 +153,7 @@ const MyTab = React.createClass({
           className="TabPane-frist"
         >
           <TabPane tab={<Icon type="home" />} key='a'>
-            <p>Hello world!</p>
+            <h2>Hello world!</h2>
           </TabPane>
           {this.getPane()}
         </Tabs>
