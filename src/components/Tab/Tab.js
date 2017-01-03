@@ -4,6 +4,7 @@ import './Tab.css';
 
 // import RegistrationForm from '../Test/Test';
 import Add from '../Add/Add';
+import MyCard from '../Card/Card';
 
 const TabPane = Tabs.TabPane;
 const MyTab = React.createClass({
@@ -54,8 +55,9 @@ const MyTab = React.createClass({
     }
     this.setState({panes: newPane});
   },
-  onChange(activeKey) {
+  onTabClick(activeKey) {
     this.setState({ activeKey });
+    this.props.showActiveInMenu(activeKey);
   },
   onEdit(targetKey, action) {
     this[action](targetKey);
@@ -68,12 +70,24 @@ const MyTab = React.createClass({
           return;
         }
       }
-      let TITLES = ['客户管理-销售', 
-                      '新增客户-市场', '跟进中客户-市场', '客户管理-市场', '预约到访查询', '分配客户-市场', '活动管理', '关怀管理-市场', 
+      let TITLES = ['客户管理-销售',
+                      '新增客户-市场', '跟进中客户-市场', '客户管理-市场', '预约到访查询', '分配客户-市场', '活动管理', '关怀管理-市场',
                       '新增客户-校区', '预约到访客户', '跟进中客户-校区', '客户经理', '分配客户-校区', '关怀管理-校区',
                       '权限设置', '规则设置'
                     ];
-      panes.push({ title: TITLES[key-1], content: <Add/>, key: key });
+      let COMPONENTS = null;
+      switch (key) {
+        case '1':
+          COMPONENTS = <MyCard/>;
+          break;
+        case '2':
+          COMPONENTS = <Add/>;
+          break;
+        default:
+          COMPONENTS = <h2>newPane{key}</h2>;
+          break;
+      }
+      panes.push({ title: TITLES[key-1], content: COMPONENTS, key: key });
       if(panes.length>9){
         panes.shift(0)
       }
@@ -146,7 +160,7 @@ const MyTab = React.createClass({
         </div>
         <Tabs
           hideAdd
-          onChange={this.onChange}
+          onTabClick={this.onTabClick}
           activeKey={this.state.activeKey}
           type="editable-card"
           onEdit={this.onEdit}

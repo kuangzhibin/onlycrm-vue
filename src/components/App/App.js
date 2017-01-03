@@ -8,6 +8,9 @@ class App extends Component {
   createTab(key) {
     this.refs.iTab.add(key)
   }
+  showActiveInMenu(key) {
+    this.refs.iMenu.showActiveInMenu(key)
+  }
   render() {
     return (
       <div className="App">
@@ -16,11 +19,11 @@ class App extends Component {
         </div>
         <div className="App-container">
           <div className="App-nav">
-            <MyMenu createTab={this.createTab.bind(this)}></MyMenu>
+            <MyMenu ref="iMenu" createTab={this.createTab.bind(this)}></MyMenu>
           </div>
           <div className="App-main">
             <div className="App-tabs">
-              <MyTab ref="iTab"></MyTab>
+              <MyTab ref="iTab" showActiveInMenu={this.showActiveInMenu.bind(this)}></MyTab>
             </div>
           </div>
         </div>
